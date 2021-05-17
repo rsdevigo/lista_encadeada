@@ -1,11 +1,12 @@
 using System;
+using System.Collections;
 namespace lista_encadeada
 {
-  class MyList
+  class MyList : IEnumerable
   {
-    int numberOfElements;
-    Node head;
-    Node tail;
+    protected int numberOfElements;
+    protected Node head;
+    protected Node tail;
     public MyList()
     {
       numberOfElements = 0;
@@ -19,13 +20,14 @@ namespace lista_encadeada
       if (numberOfElements == 0)
       {
         head = tail = newNode;
-        numberOfElements++;
       }
       else
       {
         tail.next = newNode;
+        newNode.prev = tail;
         tail = newNode;
       }
+      numberOfElements++;
     }
 
     public void PrintList()
@@ -54,6 +56,16 @@ namespace lista_encadeada
     public Node Remove(int x)
     {
       return null;
+    }
+
+    public IEnumerator GetEnumerator()
+    {
+      Node currentNode = head;
+      while (currentNode != null)
+      {
+        yield return currentNode;
+        currentNode = currentNode.next;
+      }
     }
   }
 }
